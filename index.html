@@ -115,6 +115,7 @@
       gap: 2px;
       font-size: 1.4em;
       margin: 5px 0;
+      position: relative;
     }
     .star {
       color: #ddd;
@@ -125,6 +126,7 @@
     .star.half {
       position: relative;
       display: inline-block;
+      color: transparent;
     }
     .star.half::before {
       content: '★';
@@ -132,10 +134,15 @@
       color: gold;
       width: 50%;
       overflow: hidden;
+      left: 0;
+      top: 0;
     }
     .star.half::after {
       content: '★';
       color: #ddd;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
     .supplement p {
       color: #666;
@@ -185,7 +192,6 @@
       lact: { title: "ラブレパワー", img: "./img/7.png", desc: "免疫＆腸内環境を支える。" }
     };
 
-    // 動的に質問を追加
     const qArea = document.getElementById('questionArea');
     questions.forEach((q, i) => {
       const value = assign[i];
@@ -214,26 +220,23 @@
         const item = data[key];
         const supDiv = document.createElement('div');
         supDiv.className = 'supplement';
-        
-        // 固定の星評価
+
         let stars;
-        if (i === 0) stars = 5; // 1位は星5つ固定
-        else if (i === 1) stars = 4.5; // 2位は星4.5固定
-        else stars = 4; // 3位は星4つ固定
-        
+        if (i === 0) stars = 5;
+        else if (i === 1) stars = 4.5;
+        else stars = 4;
+
         supDiv.innerHTML = `
           <img src="${item.img}" alt="${item.title}" />
           <div class="supplement-title">第${i + 1}位：${item.title}</div>
           <div class="stars">${getStars(stars)}</div>
           <p>${item.desc}</p>
         `;
-        
+
         supplementsContainer.appendChild(supDiv);
       });
-      
+
       resultBox.appendChild(supplementsContainer);
-      
-      // 診断結果まで自動スクロール
       resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 

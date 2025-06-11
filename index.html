@@ -151,7 +151,6 @@
   </div>
 
 <script>
-  // 質問文（30個）
   const questions = [
     "最近、肌のハリや弾力が急に低下したと感じる",
     "関節や靭帯が固く、動きはじめに痛みを感じやすい",
@@ -182,70 +181,70 @@
     "血圧が高め（診察室血圧 130/80 mmHg 以上）と言われた",
     "食後に胃もたれ・膨満感が長く続く",
     "加熱食中心で、生野菜や発酵食品をあまり摂らない",
-    "加齢やストレスで基礎代謝が落ち、太りやすくなった実感がある"
+    "加齢やストレスで基礎代謝が落ち、太りやすくなった実感がある",
+    "更年期、PMSが気になる",
+    "手足が冷える",
+    "花粉症やアトピーなどアレルギーがある"
   ];
 
-  // 各質問の推奨サプリ（カンマ区切り 複数可）
   const assign = [
-    "collagen",
-    "collagen",
-    "collagen",
-    "vitaminB",
-    "vitaminB",
-    "vitaminB,gaba",
-    "vitaminB,gaba",
-    "vitaminC",
-    "vitaminC,collagen",
-    "vitaminC",
-    "biotin,collagen",
-    "biotin",
-    "biotin,vitaminC",
-    "iron",
-    "iron",
-    "iron",
-    "iron",
-    "antioxidant,vitaminB",
-    "antioxidant",
-    "antioxidant,collagen",
-    "diet",
-    "diet,vitaminB",
-    "diet,enzyme",
-    "diet,collagen",
-    "gaba,antioxidant",
-    "gaba",
-    "gaba",
-    "enzyme",
-    "enzyme,vitaminC",
-    "enzyme,diet"
+    ["collagen", "vitaminC", "gaba"],
+    ["collagen"],
+    ["collagen"],
+    ["vitaminB"],
+    ["vitaminB", "biotin"],
+    ["vitaminB", "antioxidant", "gaba"],
+    ["vitaminB", "iron", "antioxidant"],
+    ["vitaminC"],
+    ["vitaminC", "collagen", "vitaminB"],
+    ["vitaminC"],
+    ["biotin", "collagen"],
+    ["biotin"],
+    ["biotin", "vitaminC", "sopex"],
+    ["iron"],
+    ["iron"],
+    ["iron", "antioxidant"],
+    ["iron"],
+    ["antioxidant", "vitaminB"],
+    ["antioxidant", "vitaminB", "sopex"],
+    ["antioxidant", "collagen", "vitaminC"],
+    ["diet", "vitaminB"],
+    ["diet", "vitaminB"],
+    ["diet", "enzyme"],
+    ["diet", "collagen"],
+    ["gaba", "antioxidant"],
+    ["gaba"],
+    ["gaba", "sopex"],
+    ["enzyme"],
+    ["enzyme", "vitaminC"],
+    ["enzyme", "diet"],
+    ["sopex"],
+    ["sopex", "enzyme", "antioxidant"],
+    ["sopex", "biotin"]
   ];
 
-  // サプリ情報
   const data = {
-    collagen: { title: "バイオコラーゲン EX", img: "./img/9.png", desc: "肌や関節のハリ・弾力にアプローチします。" },
-    vitaminB: { title: "ビーコン EX", img: "./img/8.png", desc: "エネルギー代謝や疲労回復に。" },
-    vitaminC: { title: "ビタC1300", img: "./img/5.png", desc: "免疫サポートや抗酸化に。" },
-    biotin:   { title: "ビオチン EX", img: "./img/6.png", desc: "肌・髪・爪の健康維持に。" },
-    iron:     { title: "ヘムカル EX", img:"./img/12.png", desc: "貧血や骨の健康が気になる方に" },
-    antioxidant: { title: "水素姫EX", img:"./img/4.png", desc:"酸化ストレスやストレス緩和に。" },
-    diet:     { title: "SOP-EX", img:"./img/10.png", desc:"代謝・ダイエットサポートに。" },
-    enzyme:   { title: "美活酵素", img:"./img/11.png", desc:"酵素と植物成分で内側からケア。" },
-    gaba:     { title: "新のGABA", img:"./img/1.png", desc:"リラックス・ストレス緩和に。" }
+    collagen:   { title: "バイオコラーゲンEX", img:  "./img/9.png", desc: "肌や関節のハリ・弾力に。" },
+    vitaminB:   { title: "ビーコンEX", img: "./img/2.png", desc: "エネルギー代謝や疲労回復に。" },
+    vitaminC:   { title: "ビタC1300", img:  "./img/5.png", desc: "免疫サポートや抗酸化に。" },
+    biotin:     { title: "ビオチンEX", img:  "./img/6.png", desc: "肌・髪・爪の健康維持に。" },
+    iron:       { title: "ヘムカルEX", img: "./img/12.png", desc: "貧血や骨の健康に。" },
+    antioxidant:{ title: "水素姫EX", img:  "./img/4.png", desc: "酸化ストレスの軽減に。" },
+    diet:       { title: "コタラスリム＋乳酸菌", img: "./img/3.png", desc: "代謝・脂肪燃焼サポート。" },
+    gaba:       { title: "新のGABA", img:  "./img/1.png", desc: "ストレス・リラックスサポート。" },
+    enzyme:     { title: "美活酵素", img:  "./img/11.png", desc: "消化と代謝をサポート。" },
+    sopex:      { title: "SOP-EX", img: "./img/10.png", desc: "更年期や冷え対策にも。" }
   };
 
-  // 質問を画面に表示
   const questionArea = document.getElementById('questionArea');
   questions.forEach((q, i) => {
-    // checkbox idを固有に設定
     const id = 'q' + i;
-    // label内にinputを埋め込む
     const label = document.createElement('label');
     label.htmlFor = id;
     label.innerHTML = `<input type="checkbox" id="${id}" value="${i}" />${q}`;
     questionArea.appendChild(label);
   });
 
-  // 星の表示HTMLを生成
-  // rating: 5〜0の範囲で半分単位（例: 4.5, 3.5）
   function createStars(rating) {
     let starsHtml = '';
     for(let i = 1; i <= 5; i++) {
@@ -260,7 +259,6 @@
     return `<div class="stars">${starsHtml}</div>`;
   }
 
-  // 診断結果を表示
   function showResult() {
     const checked = [...document.querySelectorAll('input[type="checkbox"]:checked')];
     if(checked.length === 0){
@@ -268,33 +266,25 @@
       return;
     }
 
-    // サプリごとにスコア加算
     const score = {};
     checked.forEach(input => {
       const idx = parseInt(input.value, 10);
-      const supplements = assign[idx].split(',');
+      const supplements = assign[idx] || [];
       supplements.forEach(sup => {
         if(!score[sup]) score[sup] = 0;
         score[sup]++;
       });
     });
 
-    // スコアがあるサプリのみ抽出し降順ソート
     const sorted = Object.entries(score).sort((a,b) => b[1] - a[1]);
-
-    // TOP3抽出（スコアがないサプリは除外）
     const top3 = sorted.slice(0,3);
-
-    // 星評価は固定で、1位=★5、2位=★4.5〜4、3位=★4〜3.5 のパターンを実装
-    // 例として2位は4.5、3位は4で固定
     const starsRating = [5, 4.5, 4];
 
-    // 結果HTML作成
     const resultDiv = document.getElementById('result');
     let html = '<h2>おすすめのサプリTOP3</h2><div class="supplements">';
     top3.forEach(([key, val], i) => {
       const sup = data[key];
-      if(!sup) return; // データない場合は無視
+      if(!sup) return;
       html += `<div class="supplement">
         <img src="${sup.img}" alt="${sup.title}" />
         <strong>${sup.title}</strong>
@@ -305,8 +295,6 @@
     html += '</div>';
     resultDiv.innerHTML = html;
     resultDiv.style.display = 'block';
-
-    // 画面下へスクロール
     resultDiv.scrollIntoView({behavior:"smooth"});
   }
 </script>

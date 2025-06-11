@@ -1,35 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>おすすめサプリ診断</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>サプリチェック診断</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: "Noto Sans JP", sans-serif;
+      font-family: 'Noto Sans JP', sans-serif;
       background: #f5f5f5;
-      color: #333;
       padding: 20px;
       max-width: 800px;
       margin: 0 auto;
-      line-height: 1.6;
     }
     .container {
-      background: white;
-      border-radius: 8px;
+      background: #fff;
       padding: 30px;
+      border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     h1, h2 {
-      color: #555;
       text-align: center;
-      margin-bottom: 25px;
-    }
-    h1 {
-      font-weight: 500;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 15px;
+      color: #333;
     }
     .question-group {
       display: grid;
@@ -39,9 +31,10 @@
     label {
       display: flex;
       align-items: center;
-      margin: 8px 0;
+      background: #f9f9f9;
       padding: 8px;
-      border-radius: 4px;
+      border-radius: 5px;
+      cursor: pointer;
       transition: background 0.2s;
     }
     label:hover {
@@ -50,27 +43,23 @@
     input[type="checkbox"] {
       margin-right: 10px;
     }
-    .button-container {
-      text-align: center;
-      margin: 30px 0;
-    }
     button {
+      display: block;
+      margin: 30px auto;
       padding: 12px 40px;
-      background-color: #555;
+      background-color: #333;
       color: #fff;
       border: none;
       border-radius: 30px;
       cursor: pointer;
       font-size: 16px;
       transition: all 0.3s;
-      font-weight: 500;
     }
     button:hover {
-      background-color: #333;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      background-color: #555;
     }
     .result {
+      display: none;
       margin-top: 30px;
       padding: 20px;
       background: #fff;
@@ -79,50 +68,27 @@
     }
     .supplements {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
     .supplement {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      transition: transform 0.3s;
-      background: #f9f9f9;
-    }
-    .supplement:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .supplement-title {
-      font-size: 1.2em;
-      font-weight: 500;
-      color: #444;
-      margin: 10px 0;
     }
     .supplement img {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
-      margin-bottom: 15px;
-      border-radius: 5px;
+      margin-bottom: 10px;
     }
     .stars {
       display: flex;
-      gap: 2px;
-      font-size: 1.4em;
+      justify-content: center;
+      font-size: 1.2em;
       margin: 5px 0;
-      position: relative;
     }
-    .star {
-      color: #ddd;
-    }
-    .star.full {
-      color: gold;
-    }
+    .star { color: #ddd; }
+    .star.full { color: gold; }
     .star.half {
       position: relative;
       display: inline-block;
@@ -144,54 +110,73 @@
       left: 0;
       top: 0;
     }
-    .supplement p {
-      color: #666;
-      font-size: 14px;
-      margin-top: 10px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>あなたのおすすめサプリ診断</h1>
-
-    <form id="supplementForm">
+    <form id="form">
       <div id="questionArea" class="question-group"></div>
-      <div class="button-container">
-        <button type="button" onclick="showResult()">診断する</button>
-      </div>
+      <button type="button" onclick="showResult()">診断する</button>
     </form>
-
-    <div class="result" id="result" style="display: none;"></div>
+    <div class="result" id="result"></div>
   </div>
 
   <script>
     const questions = [
-      "朝食を抜くことが多い", "野菜不足を感じる", "ダイエット中", "お通じが不安定",
-      "肌が乾燥しやすい", "PMSや更年期の症状がある", "ストレスを感じやすい", "老化が気になる",
-      "貧血気味", "免疫力を高めたい", "夜更かしが多い", "タバコを吸う", "お酒をよく飲む", "外食が多い",
-      "ファストフードが多い", "体がだるい", "肩こりがつらい", "目が疲れやすい", "集中力が続かない", "便秘がち",
-      "肌荒れが気になる", "爪が割れやすい", "髪のパサつきが気になる", "冷え性である", "イライラしやすい",
-      "アレルギー体質である", "運動不足である", "更年期が気になる", "妊活をしている", "寝つきが悪い"
+      "最近、肌のハリや弾力が急に低下したと感じる",
+      "関節や靭帯が固く、動きはじめに痛みを感じやすい",
+      "目尻やほうれい線などのシワが目立ってきた",
+      "仕事終わりに“電池切れ”のような極端な疲労感がある",
+      "口内炎や口角炎ができやすい",
+      "ストレスがかかるとすぐイライラしがち",
+      "朝起きても疲れが抜けず、倦怠感が残る",
+      "あざや内出血ができやすい",
+      "かすり傷や切り傷の治りが遅い",
+      "歯ぐきからの出血や腫れが気になる",
+      "髪が抜けやすく、ツヤやコシがなくなった",
+      "爪が割れたり、縦スジが目立つ",
+      "乾燥性の皮膚炎や湿疹が繰り返し出る",
+      "顔色が青白く、立ちくらみや動悸を感じやすい",
+      "爪がスプーン状に反り返っている",
+      "夕方以降に“こむら返り”や足のつりが起こる",
+      "牛乳・乳製品をあまり摂らず、骨折リスクが気になる",
+      "激しい運動後に強い筋肉痛や疲労が長引く",
+      "お酒を飲むと翌朝まで二日酔いが残りやすい",
+      "紫外線や睡眠不足など“酸化ストレス”に心当たりが多い",
+      "BMI25以上またはウエスト周囲径（男性85cm／女性90cm）以上",
+      "間食や夜食の習慣があり、血糖値の乱高下を感じる",
+      "食後すぐに空腹感が戻り、ドカ食いしてしまうことが多い",
+      "体重は減らしたいが筋肉量は落としたくない",
+      "仕事や家事のプレッシャーで常に交感神経が高ぶっている",
+      "寝つきが悪く、夜中に何度も目が覚める",
+      "血圧が高め（診察室血圧 130/80 mmHg 以上）と言われた",
+      "食後に胃もたれ・膨満感が長く続く",
+      "加熱食中心で、生野菜や発酵食品をあまり摂らない",
+      "加齢やストレスで基礎代謝が落ち、太りやすくなった実感がある"
     ];
+
     const assign = [
-      "bitac1300", "becon", "kotara", "enzyme", "biotin", "sop", "gaba", "hydrogen",
-      "hemcal", "lact", "gaba", "hydrogen", "enzyme", "becon", "becon", "becon", "gaba", "gaba", "gaba", "enzyme",
-      "biotin", "biotin", "biotin", "enzyme", "sop", "biotin", "kotara", "sop", "sop", "gaba"
+      "collagen","collagen","collagen","vitaminB","vitaminB","vitaminB","vitaminB",
+      "vitaminC","vitaminC","vitaminC","biotin","biotin","biotin",
+      "iron","iron","iron","iron","antioxidant","antioxidant","antioxidant",
+      "diet","diet","diet","diet","gaba","gaba","gaba","enzyme","enzyme","diet"
     ];
 
     const data = {
-      bitac1300: { title: "ビタC1300", img: "./img/5.png", desc: "ビタミンCで美白と免疫サポート。" },
-      becon: { title: "ビーコンEX", img: "./img/8.png", desc: "ビタミンB群で代謝アップ＆皮脂バランス。" },
-      kotara: { title: "コタラスリム", img: "./img/3.png", desc: "糖質カット＋整腸サポートでダイエットに。" },
-      enzyme: { title: "美活酵素", img: "./img/11.png", desc: "80種類の植物で発酵、便通・冷え対策に。" },
-      biotin: { title: "ビオチンEX", img: "./img/6.png", desc: "肌荒れやアレルギー、乾燥におすすめ。" },
-      sop: { title: "SOP-EX", img: "./img/10.png", desc: "更年期やPMSの悩みに対応。" },
-      gaba: { title: "新のGABA", img: "./img/1.png", desc: "睡眠・ストレス・集中サポート。" },
-      hydrogen: { title: "水素姫EX", img: "./img/4.png", desc: "抗酸化で老化・酸化ストレス対策。" },
-      hemcal: { title: "ヘムカルEX", img: "./img/12.png", desc: "鉄分とカルシウムで貧血・骨に。" },
-      lact: { title: "ラブレパワー", img: "./img/7.png", desc: "免疫＆腸内環境を支える。" }
+      collagen: { title: "バイオコラーゲン-EX", img: "./img/9.png", desc: "肌や関節のハリ・弾力にアプローチします。" },
+      vitaminB: { title: "ビーコン EX", img: "./img/8.png", desc: "エネルギー代謝や疲労回復に。" },
+      vitaminC: { title: "ビタC1300", img: "./img/5.png", desc: "免疫サポートや抗酸化に。" },
+      biotin:   { title: "ビオチン EX", img: "./img/6.png", desc: "肌・髪・爪の健康維持に。" },
+      iron:     { title: "ヘルカム EX", img:"./img/12.png", desc: "貧血や骨の健康が気になる方に。" },
+      antioxidant: { title: "水素姫EX", img: "./img/4.png", desc: "酸化ストレスに対抗する抗酸化成分。" },
+      diet:     { title: "コタラスリム＋乳酸菌", img:"./img/3.png", desc: "燃焼・代謝サポートでスリムを応援。" },
+      gaba:     { title: "新GABA", img: "./img/1.png", desc: "ストレス緩和や睡眠の質向上に。" },
+      enzyme:   { title: "美活酵素", img: "./img/11.png", desc: "腸内環境や消化サポートにおすすめ。" }
+      
     };
+  
+    
 
     const qArea = document.getElementById('questionArea');
     questions.forEach((q, i) => {
@@ -214,30 +199,25 @@
         return;
       }
 
-      const supplementsContainer = document.createElement('div');
-      supplementsContainer.className = 'supplements';
+      const container = document.createElement('div');
+      container.className = 'supplements';
 
       sorted.slice(0, 3).forEach(([key, count], i) => {
         const item = data[key];
         const supDiv = document.createElement('div');
         supDiv.className = 'supplement';
 
-        let stars;
-        if (i === 0) stars = 5;
-        else if (i === 1) stars = 4.5;
-        else stars = 4;
-
+        let stars = i === 0 ? 5 : i === 1 ? 4.5 : 4;
         supDiv.innerHTML = `
           <img src="${item.img}" alt="${item.title}" />
-          <div class="supplement-title">第${i + 1}位：${item.title}</div>
+          <div><strong>第${i + 1}位：${item.title}</strong></div>
           <div class="stars">${getStars(stars)}</div>
           <p>${item.desc}</p>
         `;
-
-        supplementsContainer.appendChild(supDiv);
+        container.appendChild(supDiv);
       });
 
-      resultBox.appendChild(supplementsContainer);
+      resultBox.appendChild(container);
       resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -246,13 +226,9 @@
       const half = score - full >= 0.5;
       let html = "";
       for (let i = 0; i < 5; i++) {
-        if (i < full) {
-          html += `<span class="star full">★</span>`;
-        } else if (i === full && half) {
-          html += `<span class="star half">★</span>`;
-        } else {
-          html += `<span class="star">★</span>`;
-        }
+        if (i < full) html += `<span class="star full">★</span>`;
+        else if (i === full && half) html += `<span class="star half">★</span>`;
+        else html += `<span class="star">★</span>`;
       }
       return html;
     }
